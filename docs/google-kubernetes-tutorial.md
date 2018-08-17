@@ -20,21 +20,15 @@ Just click the button:
 [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/pingcap/tidb-operator&tutorial=docs/google-kubernetes-tutorial.md)
 -->
 
-If you have any issues with this button, you can download this file as markdown and open it.
+If you have any issues with this button, you can download this file as markdown and open it:
 
 	git clone https://github.com/pingcap/tidb-operator
 	cd tidb-operator
 	teachme docs/google-kubernetes-tutorial.md
 
+### Setup a new project for your experiment (optional)
 
-### Bring up the Kubernetes cluster 
-
-At the end of this cluster creation step, we will have a Kubernetes cluster with kubectl authorized to connect to it.
-You can [use terraform]() or other tools to achieve this.
-
-For more detailed information, please review the [Quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart) instructions for setting up a Kubernetes cluster.
-
-First create a project that this demo will be ran in.
+Before you get started, it is recommended to create a new project:
 
 	gcloud projects create tidb-demo
 
@@ -44,24 +38,30 @@ Now set your gcloud to use this project:
 
 	gcloud config set project tidb-demo
 
-Set it to use a [zone](https://cloud.google.com/compute/docs/regions-zones/)
+### Bring up the Kubernetes cluster 
+
+At the end of this cluster creation step, we will have a Kubernetes cluster with kubectl authorized to connect to it.
+You can [use terraform]() or other tools to achieve this.
+
+For more detailed information, please review the [Quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart) instructions for setting up a Kubernetes cluster.
+
+First, set your [zone](https://cloud.google.com/compute/docs/regions-zones/)
 
 	gcloud config set compute/zone us-west1-a
 
-Now create the kubernetes cluster.
+Now create a kubernetes cluster _named_ tidb:
 
 	gcloud container clusters create tidb
 
 This could take more than a minute to complete. Now is a good time to do some stretches and refill your beverage.
 
-When the cluster is completed, default gcloud to use it.
+When the cluster is completed, default gcloud to use it:
 
 	gcloud config set container/cluster tidb
 
-
 ## Running TiDB
 
-Now we have a cluster! Verify that kubectl can connect to it and that it has three machines running.
+Now we have a Kubernetes cluster! Verify that kubectl can connect to it and that it has three machines running:
 
 	kubectl get nodes
 
@@ -72,43 +72,44 @@ Note that in Google Cloud Shell, system installs do not persist across shell ses
 	cp /usr/local/bin/helm ~/bin
 	echo 'PATH="$PATH:$HOME/bin"' >> ~/.bashrc
 
-We can get the TiDB helm charts from the source repository.
+We can get the TiDB helm charts from the source repository:
 
 	git clone https://github.com/pingcap/tidb-operator
 	cd tidb-operator
 	git checkout gregwebs/kube-tutorial
 
-Helm will need a couple of permissions to work properly.
+Helm will need a couple of permissions to work properly:
 
 	kubectl create serviceaccount tiller --namespace kube-system
 	kubectl apply -f manifests/tiller-rbac.yaml
 	helm init --service-account tiller --upgrade
 
-Now we can run the TiDB operator and the TiDB cluster
+Now we can run the TiDB operator and the TiDB cluster:
 
 	kubectl apply -f ./manifests/crd.yaml
 	kubectl apply -f manifests/gke-storage.yml
 	helm install charts/tidb-operator -n tidb-operator --namespace=tidb-admin
 
-We can watch the operator come up with
+We can watch the operator come up with:
 
 	watch kubectl get pods --namespace tidb-admin -o wide
 
-Now with a single command we can bring-up a full TiDB cluster.
+Now with a single command we can bring-up a full TiDB cluster:
 
 	helm install charts/tidb-cluster -n tidb --namespace=tidb
 
-Now we can watch our cluster come up
+We can watch our cluster come up:
 
 	watch kubectl get pods --namespace tidb -o wide
 
-Now lets connect to our MySQL database. This will connect from within the Kubernetes cluster.
+Now lets connect to our MySQL database. This will connect from within the Kubernetes cluster:
 
 	kubectl run -n tidb mysql-client --rm -i --tty --image mysql -- mysql -P 4000 -u root -h $(kubectl get svc demo-cluster-tidb -n tidb --output json | jq -r '.spec.clusterIP')
 
-Now you are up and running with a distribute MySQL database!
-
+Now you are up and running with a distributed MySQL database!
 
 ## Cleanup
+
+Once you have finished experimenting, you can delete the Kubernetes cluster with:
 
 	gcloud container clusters delete tidb
