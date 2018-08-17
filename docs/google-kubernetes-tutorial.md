@@ -8,7 +8,6 @@ category: operations
 
 Lets use Google Cloud Kubernetes to have a straight-forward and reliable install of a TiDB, a distributed MySQL compatible database.
 
-
 ## Deploying Kubernetes on Google
 
 TiDB can be deployed onto any Kubernetes cluster: you can bring up a three node cluster however you see fit and skip this section. But here we will bring up a cluster on Google Cloud designed for TiDB.
