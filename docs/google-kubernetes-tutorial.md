@@ -104,7 +104,7 @@ We can watch our cluster come up:
 
 Now lets connect to our MySQL database. This will connect from within the Kubernetes cluster:
 
-	kubectl run -n tidb mysql-client --rm -i --tty --image mysql -- mysql -P 4000 -u root -h $(kubectl get svc demo-cluster-tidb -n tidb --output json | jq -r '.spec.clusterIP')
+	kubectl run -n tidb mysql-client --rm -i --tty --image mysql -- mysql -P 4000 -u root -h $(kubectl get svc demo-tidb -n tidb --output json | jq -r '.spec.clusterIP')
 
 Now you are up and running with a distributed MySQL database!
 
