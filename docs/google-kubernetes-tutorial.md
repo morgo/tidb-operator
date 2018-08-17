@@ -34,20 +34,20 @@ Before you get started, it is recommended to create a new project:
 
 Before you can create a cluster, you must [enable Kubernetes for your project in the console.](https://console.cloud.google.com/projectselector/kubernetes?_ga=2.78459869.-833158988.1529036412)
 
-Now set your gcloud to use this project:
+### Setup your environment (required)
+
+Configure the gcloud project and [zone](https://cloud.google.com/compute/docs/regions-zones/) that you would like to deploy TiDB in:
 
 	gcloud config set project tidb-demo
+	gcloud config set compute/zone us-west1-a
+
 
 ### Bring up the Kubernetes cluster 
 
 At the end of this cluster creation step, we will have a Kubernetes cluster with kubectl authorized to connect to it.
-You can [use terraform]() or other tools to achieve this.
+You can also [use terraform]() or other tools to achieve this.
 
 For more detailed information, please review the [Quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart) instructions for setting up a Kubernetes cluster.
-
-First, set your [zone](https://cloud.google.com/compute/docs/regions-zones/)
-
-	gcloud config set compute/zone us-west1-a
 
 Now create a kubernetes cluster _named_ tidb:
 
