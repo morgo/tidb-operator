@@ -22,9 +22,11 @@ Just click the button:
 
 If you have any issues with this button, you can download this file as markdown and open it.
 
-	git clone https://github.com/pingcap/tidb-operator
-	cd tidb-operator
-	teachme docs/google-kubernetes-tutorial.md
+```sh
+git clone https://github.com/pingcap/tidb-operator
+cd tidb-operator
+teachme docs/google-kubernetes-tutorial.md
+```
 
 
 ### Bring up the Kubernetes cluster 
@@ -68,27 +70,35 @@ Now we have a cluster! Verify that kubectl can connect to it and that it has thr
 We can install TiDB with helm charts. Maske sure [helm is installed](https://github.com/helm/helm#install) on your platform.
 Note that in Google Cloud Shell, system installs do not persist across shell sessions. You can put helm in your home directory:
 
-	mkdir -p ~/bin
-	cp /usr/local/bin/helm ~/bin
-	echo 'PATH="$PATH:$HOME/bin"' >> ~/.bashrc
+```sh
+mkdir -p ~/bin
+cp /usr/local/bin/helm ~/bin
+echo 'PATH="$PATH:$HOME/bin"' >> ~/.bashrc
+```
 
 We can get the TiDB helm charts from the source repository.
 
-	git clone https://github.com/pingcap/tidb-operator
-	cd tidb-operator
-	git checkout gregwebs/kube-tutorial
+```sh
+git clone https://github.com/pingcap/tidb-operator
+cd tidb-operator
+git checkout gregwebs/kube-tutorial
+```
 
 Helm will need a couple of permissions to work properly.
 
-	kubectl create serviceaccount tiller --namespace kube-system
-	kubectl apply -f manifests/tiller-rbac.yaml
-	helm init --service-account tiller --upgrade
+``` sh
+kubectl create serviceaccount tiller --namespace kube-system
+kubectl apply -f manifests/tiller-rbac.yaml
+helm init --service-account tiller --upgrade
+```
 
 Now we can run the TiDB operator and the TiDB cluster
 
-	kubectl apply -f ./manifests/crd.yaml
-	kubectl apply -f manifests/gke-storage.yml
-	helm install charts/tidb-operator -n tidb-operator --namespace=tidb-admin
+```sh
+kubectl apply -f ./manifests/crd.yaml
+kubectl apply -f manifests/gke-storage.yml
+helm install charts/tidb-operator -n tidb-operator --namespace=tidb-admin
+```
 
 We can watch the operator come up with
 
