@@ -30,7 +30,7 @@ If you have any issues with this button, you can download this file as markdown 
 
 Before you get started, it is recommended to create a new project:
 
-	gcloud projects create tidb-demo
+	gcloud projects create MY_NEW_PROJECT_NAME
 
 Before you can create a cluster, you must [enable Kubernetes for your project in the console.](https://console.cloud.google.com/projectselector/kubernetes?_ga=2.78459869.-833158988.1529036412)
 
@@ -38,7 +38,7 @@ Before you can create a cluster, you must [enable Kubernetes for your project in
 
 Configure the gcloud project and [zone](https://cloud.google.com/compute/docs/regions-zones/) that you would like to deploy TiDB in:
 
-	gcloud config set project tidb-demo
+	gcloud config set project MY_NEW_PROJECT_NAME
 	gcloud config set compute/zone us-west1-a
 
 
