@@ -6,6 +6,10 @@ category: operations
 
 # Deploy TiDB, a distributed MySQL compatible database, to Kubernetes on Google Cloud
 
+## Introduction
+
+<project-billing-setup></project-billing-setup>
+
 Lets use Google Cloud Kubernetes to have a straight-forward and reliable install of a TiDB, a distributed MySQL compatible database.  This tutorial takes you through these steps:
 
 - Creating a new Google Cloud Project (optional)
@@ -14,7 +18,6 @@ Lets use Google Cloud Kubernetes to have a straight-forward and reliable install
 - Deploying TiDB to your Kubernetes cluster
 - Connecting to TiDB
 - Shutting down down the Kubernetes cluster (optional)
-
 
 ## Deploying Kubernetes on Google
 
@@ -40,6 +43,9 @@ Alternatively, you can run this from your laptop. You just need to [setup the gc
 
 
 ## Create a new GCP Project
+
+<project-billing-setup>
+</walkthrough-directive-name>
 
 First create a project that this demo will be ran in:
 
