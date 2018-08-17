@@ -7,11 +7,18 @@ category: operations
 # Deploy TiDB, a distributed MySQL compatible database, to Kubernetes on Google Cloud
 
 Lets use Google Cloud Kubernetes to have a straight-forward and reliable install of a TiDB, a distributed MySQL compatible database.
+We will go through these steps
+
+  1) start a Kubernetes cluster on GKE
+  2) install helm, a Kubernetes installer
+  3) launch TiDB
+  4) cleanup
 
 
 ## Deploying Kubernetes on Google
 
-TiDB can be deployed onto any Kubernetes cluster: you can bring up a three node cluster however you see fit and skip this section. But here we will bring up a cluster on Google Cloud designed for TiDB.
+TiDB can be deployed onto any Kubernetes cluster: you can bring up a three node cluster however you see fit or look for our documentation on deploying to other systems.
+But here we will bring up a Kubernetes cluster on Google Cloud designed for TiDB.
 Google provides a free small VM called Google Cloud Shell that you can run this tutorial from.
 Just click the button:
 
@@ -27,6 +34,8 @@ git clone https://github.com/pingcap/tidb-operator
 cd tidb-operator
 teachme docs/google-kubernetes-tutorial.md
 ```
+
+Alternatively, you can run this from your laptop. You just need to [setup the gcloud tool first](https://cloud.google.com/sdk/docs/quickstarts).
 
 
 ### Bring up the Kubernetes cluster 
@@ -76,14 +85,6 @@ cp /usr/local/bin/helm ~/bin
 echo 'PATH="$PATH:$HOME/bin"' >> ~/.bashrc
 ```
 
-We can get the TiDB helm charts from the source repository.
-
-```sh
-git clone https://github.com/pingcap/tidb-operator
-cd tidb-operator
-git checkout gregwebs/kube-tutorial
-```
-
 Helm will need a couple of permissions to work properly.
 
 ``` sh
@@ -92,12 +93,21 @@ kubectl apply -f manifests/tiller-rbac.yaml
 helm init --service-account tiller --upgrade
 ```
 
+We can get the TiDB helm charts from the tidb-operator source repository.
+
+```sh
+git clone https://github.com/pingcap/tidb-operator
+cd tidb-operator
+git checkout gregwebs/kube-tutorial
+```
+
+
 Now we can run the TiDB operator and the TiDB cluster
 
 ```sh
 kubectl apply -f ./manifests/crd.yaml
 kubectl apply -f manifests/gke-storage.yml
-helm install charts/tidb-operator -n tidb-operator --namespace=tidb-admin
+helm install charts/tidb-operator -n tidb-admin --namespace=tidb-admin
 ```
 
 We can watch the operator come up with
